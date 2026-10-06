@@ -118,19 +118,6 @@ esto solo aplica si se agrega un tercero en el futuro):
 Estas piezas todavía no están resueltas y son necesarias para que el
 bloqueo funcione de punta a punta:
 
-- **Verificar un dominio remitente propio en Resend para prod** — la Edge
-  Function (`../supabase/functions/send-bloqueo-email/`, repositorio
-  principal) lee el remitente del secret `RESEND_FROM_ADDRESS`, con un
-  valor independiente por proyecto Supabase. Hoy staging **y** prod
-  apuntan al dominio sandbox de Resend (`onboarding@resend.dev`, que solo
-  entrega al correo con el que se registró la cuenta de Resend) — una vez
-  verificado un dominio propio en el panel de Resend, actualizar solo el
-  secret de prod:
-  ```bash
-  supabase secrets set RESEND_FROM_ADDRESS="Hermeskopio <notificaciones@hermeskopio.com>" --project-ref <ref-de-prod>
-  ```
-  No hace falta volver a desplegar la función — los secrets se leen en
-  cada invocación.
 - **Insertar el primer admin** — la tabla `admins` está vacía hoy a
   propósito (no hay flujo de auto-registro), y es independiente por
   proyecto Supabase (staging y prod cada uno necesita su propia fila).
