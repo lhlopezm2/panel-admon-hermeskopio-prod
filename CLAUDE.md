@@ -100,7 +100,10 @@ UX (inline error vs. silent redirect). On success it navigates straight to
 other screen in this panel. It owns the tab nav (`NavLink`, active-state
 styling) and the "Cerrar sesión" button (moved here from the old
 `ReportsListPage` since it now applies to all 3 tabs, not just one), and
-renders the active child via `<Outlet />`.
+renders the active child via `<Outlet />`. After `signOut()` it navigates to
+`/login` with the router (`useNavigate`), never `window.location`: the panel
+lives under `/panel-admon-hermeskopio-{staging,prod}/` and uses `HashRouter`,
+so a plain `"/login"` went to the root of GitHub Pages and showed a 404.
 
 ### Report moderation flow (`src/routes/NegociosReportadosPage.tsx`, `src/routes/BusinessDetailPage.tsx`)
 
