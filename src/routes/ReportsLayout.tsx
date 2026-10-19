@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 
 const TABS = [
@@ -12,9 +12,15 @@ const TABS = [
 // que el resto de pantallas del panel. "Cerrar sesión" vive acá porque
 // antes estaba solo en ReportsListPage y ahora aplica a las 3 pestañas.
 export default function ReportsLayout() {
+  const navigate = useNavigate();
+
+  // Con el router, no con window.location: el panel vive bajo
+  // /panel-admon-hermeskopio-{staging,prod}/ y usa HashRouter, así que su
+  // login es …/#/login. Un "/login" absoluto iba a la raíz de GitHub Pages
+  // (404).
   async function handleLogout() {
     await supabase.auth.signOut();
-    window.location.href = "/login";
+    navigate("/login", { replace: true });
   }
 
   return (
